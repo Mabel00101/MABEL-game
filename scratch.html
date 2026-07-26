@@ -15,15 +15,15 @@
 <body>
 
 
-<div class="ticket">
+<div class="fortune-box">
 
 
 <h1>
-🪄 国风天机
+🪄 吉祥如意刮刮乐
 </h1>
 
 
-<p>
+<p class="luck">
 今日幸运值：86
 </p>
 
@@ -32,23 +32,13 @@
 <div class="card">
 
 
-<div class="reward">
+<div id="result">
 
+<h2>正在测算...</h2>
 
-<h2 id="title">
-正在抽签...
-</h2>
+<p>等待揭晓</p>
 
-
-<p id="reward">
--
-</p>
-
-
-<h3 id="desc">
--
-</h3>
-
+<h3>☯ 神秘卦象</h3>
 
 </div>
 
@@ -75,23 +65,20 @@ height="240">
 
 
 
-<div id="win">
+<!-- 动画层 -->
 
-<div class="winbox">
+<div id="popup">
 
-<h1>
-🎉 恭喜中奖 🎉
-</h1>
+<div class="popup-box">
 
-<p id="wintext"></p>
+<h1>🎉 恭喜</h1>
 
-<button onclick="closeWin()">
-确定
-</button>
+<h2 id="popupText"></h2>
 
 </div>
 
 </div>
+
 
 
 
@@ -101,5 +88,6 @@ height="240">
 
 
 </body>
+
 
 </html>
