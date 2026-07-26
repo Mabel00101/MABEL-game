@@ -1,98 +1,146 @@
-const canvas=document.getElementById("card");
-const ctx=canvas.getContext("2d");
+const canvas = document.getElementById("scratch");
+const ctx = canvas.getContext("2d");
 
-canvas.width=420;
-canvas.height=240;
-
-
-// 彩票底图
-ctx.fillStyle="#c9152b";
-ctx.fillRect(0,0,420,240);
-
-ctx.strokeStyle="#ffd700";
-ctx.lineWidth=8;
-ctx.strokeRect(5,5,410,230);
+let isDrawing = false;
 
 
-// 标题
-ctx.fillStyle="#ffd700";
-ctx.font="bold 32px serif";
-ctx.fillText("吉祥如意",110,60);
+// 彩票刮层
+function initScratch(){
+
+    canvas.width = 420;
+    canvas.height = 240;
 
 
-// 图案
-for(let i=0;i<5;i++){
- for(let j=0;j<2;j++){
+    // 银色刮层
+    let gradient = ctx.createLinearGradient(0,0,420,240);
 
- ctx.beginPath();
- ctx.arc(
- 90+i*60,
- 110+j*60,
- 22,
- 0,
- Math.PI*2
- );
-
- ctx.fillStyle="#ffd700";
- ctx.fill();
-
- ctx.fillStyle="#c9152b";
- ctx.font="20px serif";
- ctx.fillText("福",
- 82+i*60,
- 118+j*60
- );
-
- }
-}
+    gradient.addColorStop(0,"#eeeeee");
+    gradient.addColorStop(0.5,"#bbbbbb");
+    gradient.addColorStop(1,"#f5f5f5");
 
 
-// 银色覆盖层
-ctx.fillStyle="#aaa";
-ctx.fillRect(0,0,420,240);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,420,240);
 
 
-let drawing=false;
+
+    // 刮刮乐文字
+
+    ctx.fillStyle="#b8860b";
+    ctx.font="bold 28px serif";
+    ctx.fillText(
+        "幸运刮刮乐",
+        120,
+        70
+    );
 
 
-function clearScratch(e){
-
- if(!drawing)return;
-
- let rect=canvas.getBoundingClientRect();
-
- let x=e.clientX-rect.left;
- let y=e.clientY-rect.top;
+    ctx.font="20px serif";
+    ctx.fillText(
+        "刮开查看今日天机",
+        100,
+        130
+    );
 
 
- ctx.globalCompositeOperation="destination-out";
+    ctx.strokeStyle="#d4af37";
+    ctx.lineWidth=6;
+    ctx.strokeRect(
+        8,
+        8,
+        404,
+        224
+    );
 
- ctx.beginPath();
-
- ctx.arc(
- x,y,
- 25,
- 0,
- Math.PI*2
- );
-
- ctx.fill();
 
 }
 
 
+
+initScratch();
+
+
+// 鼠标开始
 canvas.addEventListener(
 "mousedown",
-()=>drawing=true
-);
+()=>{
+    isDrawing=true;
+});
 
+
+// 鼠标结束
 canvas.addEventListener(
 "mouseup",
-()=>drawing=false
-);
+()=>{
+    isDrawing=false;
+});
 
 
+// 移动刮除
 canvas.addEventListener(
 "mousemove",
-clearScratch
+scratch
 );
+
+
+// 手机触摸
+
+canvas.addEventListener(
+"touchmove",
+(e)=>{
+
+    e.preventDefault();
+
+    let touch=e.touches[0];
+
+    let rect=canvas.getBoundingClientRect();
+
+    erase(
+        touch.clientX-rect.left,
+        touch.clientY-rect.top
+    );
+
+},
+{passive:false}
+);
+
+
+
+function scratch(e){
+
+    if(!isDrawing)return;
+
+
+    let rect=canvas.getBoundingClientRect();
+
+
+    erase(
+        e.clientX-rect.left,
+        e.clientY-rect.top
+    );
+
+}
+
+
+
+function erase(x,y){
+
+    ctx.globalCompositeOperation="destination-out";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x,
+        y,
+        25,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.globalCompositeOperation="source-over";
+
+}
