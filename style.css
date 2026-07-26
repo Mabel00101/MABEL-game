@@ -1,1 +1,29 @@
-body{text-align:center;background:linear-gradient(#8b2100,#e2aa00);color:#ffd700;font-family:Microsoft YaHei;padding:40px}.star{font-size:80px}a{display:block;background:#ffd700;color:#900;padding:18px;margin:20px auto;width:280px;border-radius:40px;text-decoration:none;font-size:22px}
+body{
+background:#180b05;
+color:#ffd978;
+font-family:Microsoft YaHei;
+text-align:center
+}
+.container{padding:30px}
+.scratch,.result{
+border:2px solid gold;
+border-radius:20px;
+padding:25px;
+margin:25px;
+background:#32150a
+}
+canvas{background:#aaa;border-radius:15px}
+.hide{display:none}
+.god{font-size:32px;animation:f 2s infinite}
+.cards{display:flex;gap:20px;justify-content:center}
+.cards div{
+width:150px;height:200px;
+border:3px solid gold;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+background:#251007
+}
+@keyframes f{50%{transform:translateY(-10px)}}
