@@ -46,10 +46,39 @@ icon:"🍀"
 // 随机抽取
 function getFortune(){
 
-let index=Math.floor(
-Math.random()*fortunes.length
-);
+let random=Math.random()*100;
 
-return fortunes[index];
+
+if(random<5){
+
+return fortunes[0];
+
+}
+
+else if(random<20){
+
+return fortunes[1];
+
+}
+
+else if(random<50){
+
+return fortunes[2];
+
+}
+
+else if(random<80){
+
+return fortunes[3];
+
+}
+
+else{
+
+return fortunes[4];
+
+}
+
+
 
 }
