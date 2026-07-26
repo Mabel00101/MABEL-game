@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 
 <head>
@@ -16,8 +15,11 @@
 <body>
 
 
+<div class="ticket">
+
+
 <h1>
-国风天机
+🪄 国风天机
 </h1>
 
 
@@ -27,33 +29,25 @@
 
 
 
-<div class="ticket">
-
-
-<h2>
-✨ 吉祥如意刮刮乐 ✨
-</h2>
-
-
-
 <div class="card">
 
 
 <div class="reward">
 
 
-<h2 id="fortuneTitle">
-生成中...
+<h2 id="title">
+正在抽签...
 </h2>
 
 
-<p id="fortuneLevel"></p>
+<p id="reward">
+-
+</p>
 
 
-<h3 id="fortuneReward"></h3>
-
-
-<p id="fortuneDesc"></p>
+<h3 id="desc">
+-
+</h3>
 
 
 </div>
@@ -70,10 +64,32 @@ height="240">
 </div>
 
 
+
 <p class="tip">
 刮开银膜，揭晓今日天机
 </p>
 
+
+</div>
+
+
+
+
+<div id="win">
+
+<div class="winbox">
+
+<h1>
+🎉 恭喜中奖 🎉
+</h1>
+
+<p id="wintext"></p>
+
+<button onclick="closeWin()">
+确定
+</button>
+
+</div>
 
 </div>
 
