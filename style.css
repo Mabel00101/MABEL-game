@@ -1,216 +1,412 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
 body{
-background:#160805;
-color:#ffd76b;
-font-family:"Microsoft YaHei";
-text-align:center;
+
+    min-height:100vh;
+
+    background:
+    radial-gradient(circle at top,#5b1b16,#120404);
+
+    font-family:
+    "Microsoft YaHei",
+    sans-serif;
+
+    color:#ffd86b;
+
+    text-align:center;
+
 }
-.container{max-width:900px;margin:auto;padding:30px}
-h1{font-size:46px;text-shadow:0 0 20px gold}
-.ticket-box,.scroll{
-background:#59150d;
-border:4px solid #e7b43b;
-border-radius:25px;
-padding:25px;
-margin:25px;
+
+
+/* 标题 */
+
+h1{
+
+    margin-top:40px;
+
+    font-size:48px;
+
+    color:#ffd84d;
+
+    text-shadow:
+    0 0 10px #ffcc33,
+    0 0 30px #ff9900;
+
 }
+
+
+/* 幸运值 */
+
+.luck{
+
+    margin:25px;
+
+    font-size:22px;
+
+}
+
+
+
+/* 外框 */
+
 .ticket{
-width:380px;height:230px;margin:auto;
-position:relative;
-overflow:hidden;
-border:8px solid #f7d779;
-border-radius:20px;
-background:#c82032;
+
+
+    width:850px;
+
+    margin:40px auto;
+
+    padding:40px;
+
+    background:
+
+    linear-gradient(
+    145deg,
+    #711c15,
+    #3a0905
+    );
+
+
+    border:
+
+    5px solid #ffd45c;
+
+
+    border-radius:40px;
+
+
+    box-shadow:
+
+    0 0 40px #ffb300;
+
+
 }
+
+
+
+/* 小标题 */
+
+.ticket h1{
+
+    font-size:36px;
+
+}
+
+
+
+/* 刮奖区域 */
+
 .card{
-height:100%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-color:white;
-background:radial-gradient(circle,#ffd56b 2px,transparent 3px);
+
+
+    width:420px;
+
+    height:240px;
+
+
+    margin:30px auto;
+
+
+    position:relative;
+
+
+    border-radius:25px;
+
+
+    overflow:hidden;
+
+
+    border:
+
+    5px solid #ffd86b;
+
+
+    box-shadow:
+
+    0 0 30px rgba(255,200,0,.8);
+
+
 }
-.card h3{font-size:38px}
-#scratch{position:absolute;left:0;top:0}
-.god{
-font-size:35px;
-animation:float 2s infinite;
+
+
+
+/* 奖励内容 */
+
+.reward{
+
+
+    width:100%;
+
+    height:100%;
+
+
+    display:flex;
+
+    flex-direction:column;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #fff2a8,
+    #ffbd3d
+    );
+
+
+    color:#8b1600;
+
+
 }
-@keyframes float{50%{transform:translateY(-15px)}}
-.scroll{font-size:22px}
-a{color:#ffe89a;font-size:28px}
+
+
+
+/* 奖项文字 */
+
+.reward h2{
+
+    font-size:36px;
+
+    margin-bottom:20px;
+
+
+}
+
+
+.reward p{
+
+    font-size:22px;
+
+}
+
+
+.reward h3{
+
+    margin-top:15px;
+
+    font-size:25px;
+
+}
+
+
+
+/* canvas */
+
+canvas{
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+/* 提示 */
+
+.tip{
+
+    margin-top:30px;
+
+
+    font-size:20px;
+
+}
+
+
+
+/* =====中奖动画===== */
+
+
+/* 卡牌出现 */
+
+.win-animation{
+
+
+    animation:
+
+    cardShow 1s ease,
+
+    glow 1.5s infinite alternate;
+
+
+}
+
+
+
+@keyframes cardShow{
+
+
+    0%{
+
+        transform:
+
+        scale(.3)
+
+        rotateY(180deg);
+
+
+        opacity:0;
+
+    }
+
+
+    100%{
+
+        transform:
+
+        scale(1)
+
+        rotateY(0);
+
+
+        opacity:1;
+
+    }
+
+}
+
+
+
+
+@keyframes glow{
+
+
+    from{
+
+        box-shadow:
+
+        0 0 20px gold;
+
+
+    }
+
+
+    to{
+
+        box-shadow:
+
+        0 0 60px orange;
+
+
+    }
+
+
+}
+
+
+
+/* 烟花效果 */
+
+
+.firework{
+
+
+    position:absolute;
+
+
+    width:10px;
+
+    height:10px;
+
+
+    background:#ffd700;
+
+
+    border-radius:50%;
+
+
+    animation:
+
+    explode 1s forwards;
+
+
+}
+
+
+
+@keyframes explode{
+
+
+    0%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+
+    100%{
+
+        transform:
+
+        scale(15)
+
+        translate(
+        var(--x),
+        var(--y)
+        );
+
+
+        opacity:0;
+
+    }
+
+
+}
+
+
+
+/* 手机适配 */
+
+@media(max-width:700px){
+
 
 .ticket{
-position:relative;
-width:420px;
-height:240px;
-margin:auto;
+
+    width:95%;
+
+    padding:20px;
+
 }
 
-
-#scratch{
-position:absolute;
-left:0;
-top:0;
-border-radius:20px;
-cursor:pointer;
-z-index:10;
-}
 
 
 .card{
-position:relative;
-overflow:hidden;
-}
 
-
-#answer{
-font-size:24px;
-font-weight:bold;
-}
-
-#win{
-
-display:none;
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-right:0;
-
-bottom:0;
-
-background:rgba(0,0,0,.7);
-
-align-items:center;
-
-justify-content:center;
-
-z-index:999;
+    width:100%;
 
 }
 
 
-.winbox{
+canvas{
 
-background:#fff3c4;
-
-padding:40px;
-
-border-radius:20px;
-
-text-align:center;
-
-animation:pop .5s;
+    width:100%;
 
 }
 
 
-.winbox h1{
+h1{
 
-color:#d89b00;
-
-}
-
-
-
-.winbox button{
-
-padding:10px 30px;
-
-border:none;
-
-background:#d89b00;
-
-color:white;
-
-border-radius:20px;
-
-}
-
-
-
-@keyframes pop{
-
-0%{
-
-transform:scale(0);
-
-}
-
-100%{
-
-transform:scale(1);
-
-}
-
-}
-#popup{
-
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-width:100%;
-
-height:100%;
-
-
-background:rgba(0,0,0,.6);
-
-
-display:none;
-
-
-align-items:center;
-
-justify-content:center;
-
-
-}
-
-
-
-.popup-box{
-
-
-background:#fff3c4;
-
-
-padding:40px;
-
-
-border-radius:30px;
-
-
-text-align:center;
-
-
-animation:pop .6s;
-
-
-}
-
-
-
-@keyframes pop{
-
-
-0%{
-
-transform:scale(0);
-
-}
-
-
-100%{
-
-transform:scale(1);
+    font-size:32px;
 
 }
 
