@@ -1,15 +1,20 @@
-const canvas = document.getElementById("scratch");
-const ctx = canvas.getContext("2d");
+// ===============================
+// 国风天机刮刮乐 scratch.js
+// ===============================
 
 
-canvas.width = 420;
-canvas.height = 240;
+let canvas;
+let ctx;
+
+
+let result;
 
 
 
-// =========================
-// 随机卦象结果
-// =========================
+// ===============================
+// 随机卦象数据
+// ===============================
+
 
 const results = [
 
@@ -61,9 +66,49 @@ level:"小吉"
 
 
 
-// 随机抽取
 
-let result =
+
+// ===============================
+// 页面加载完成后启动
+// ===============================
+
+
+window.onload=function(){
+
+
+console.log("刮刮乐启动");
+
+
+canvas =
+document.getElementById("scratch");
+
+
+
+if(!canvas){
+
+console.error(
+"找不到 scratch canvas"
+);
+
+return;
+
+}
+
+
+
+ctx =
+canvas.getContext("2d");
+
+
+
+canvas.width=420;
+canvas.height=240;
+
+
+
+// 随机结果
+
+result =
 results[
 Math.floor(
 Math.random()*results.length
@@ -72,10 +117,29 @@ Math.random()*results.length
 
 
 
+// 显示结果
 
-// =========================
-// 显示隐藏结果
-// =========================
+showResult();
+
+
+
+// 创建银膜
+
+initScratch();
+
+
+};
+
+
+
+
+
+
+
+// ===============================
+// 显示中奖内容
+// ===============================
+
 
 function showResult(){
 
@@ -90,7 +154,9 @@ document.getElementById("title")
 
 document.getElementById("reward")
 .innerHTML=
-result.level+" · "+result.reward;
+result.level+
+" · "+
+result.reward;
 
 
 document.getElementById("desc")
@@ -103,11 +169,18 @@ document.getElementById("desc")
 
 
 
-// =========================
+
+
+// ===============================
 // 创建银色刮层
-// =========================
+// ===============================
+
 
 function initScratch(){
+
+
+ctx.globalCompositeOperation="source-over";
+
 
 
 ctx.clearRect(
@@ -119,7 +192,7 @@ ctx.clearRect(
 
 
 
-// 背景银膜
+// 银膜渐变
 
 let gradient =
 ctx.createLinearGradient(
@@ -130,21 +203,22 @@ ctx.createLinearGradient(
 );
 
 
+
 gradient.addColorStop(
 0,
-"#f5f5f5"
+"#eeeeee"
 );
 
 
 gradient.addColorStop(
-0.5,
+0.45,
 "#999999"
 );
 
 
 gradient.addColorStop(
 1,
-"#eeeeee"
+"#f8f8f8"
 );
 
 
@@ -161,13 +235,14 @@ ctx.fillRect(
 
 
 
-// 彩票文字
+// 文字
 
-ctx.fillStyle="#666";
+
+ctx.fillStyle="#555";
 
 
 ctx.font=
-"bold 30px Microsoft YaHei";
+"bold 32px Microsoft YaHei";
 
 
 ctx.textAlign="center";
@@ -176,7 +251,7 @@ ctx.textAlign="center";
 ctx.fillText(
 "刮开此处",
 210,
-125
+120
 );
 
 
@@ -186,10 +261,11 @@ ctx.font=
 
 
 ctx.fillText(
-"好运正在生成",
+"揭晓今日天机",
 210,
 160
 );
+
 
 
 }
@@ -197,9 +273,13 @@ ctx.fillText(
 
 
 
-// =========================
-// 刮开逻辑
-// =========================
+
+
+
+// ===============================
+// 刮开功能
+// ===============================
+
 
 let drawing=false;
 
@@ -207,10 +287,12 @@ let finished=false;
 
 
 
+
 function erase(e){
 
 
-if(finished)return;
+if(finished)
+return;
 
 
 
@@ -237,7 +319,8 @@ e.touches[0].clientY-
 rect.top;
 
 
-}else{
+}
+else{
 
 
 x=
@@ -254,6 +337,8 @@ rect.top;
 
 
 
+// 清除银膜
+
 ctx.globalCompositeOperation=
 "destination-out";
 
@@ -265,7 +350,7 @@ ctx.beginPath();
 ctx.arc(
 x,
 y,
-28,
+30,
 0,
 Math.PI*2
 );
@@ -285,7 +370,13 @@ ctx.globalCompositeOperation=
 
 
 
-// 鼠标
+
+
+
+// ===============================
+// 鼠标事件
+// ===============================
+
 
 canvas.addEventListener(
 "mousedown",
@@ -296,6 +387,8 @@ drawing=true;
 erase(e);
 
 });
+
+
 
 
 canvas.addEventListener(
@@ -309,6 +402,7 @@ erase(e);
 }
 
 });
+
 
 
 window.addEventListener(
@@ -325,7 +419,13 @@ checkScratch();
 
 
 
-// 手机
+
+
+
+// ===============================
+// 手机事件
+// ===============================
+
 
 canvas.addEventListener(
 "touchstart",
@@ -336,8 +436,10 @@ drawing=true;
 erase(e);
 
 },
-{passive:false}
-);
+{
+passive:false
+});
+
 
 
 
@@ -354,9 +456,12 @@ erase(e);
 
 }
 
+
 },
-{passive:false}
-);
+{
+passive:false
+});
+
 
 
 
@@ -375,19 +480,22 @@ checkScratch();
 
 
 
-// =========================
-// 检测刮开比例
-// =========================
+
+
+// ===============================
+// 判断刮开比例
+// ===============================
 
 
 function checkScratch(){
 
 
-if(finished)return;
+if(finished)
+return;
 
 
 
-let data =
+let pixels =
 ctx.getImageData(
 0,
 0,
@@ -403,15 +511,17 @@ let clear=0;
 
 for(
 let i=3;
-i<data.length;
+i<pixels.length;
 i+=4
 ){
 
-if(data[i]===0){
+
+if(pixels[i]===0){
 
 clear++;
 
 }
+
 
 }
 
@@ -422,19 +532,28 @@ clear/(420*240);
 
 
 
+console.log(
+"刮开比例:",
+Math.round(percent*100)+"%"
+);
+
+
+
 if(percent>0.45){
 
 
 finished=true;
 
 
-canvas.style.transition="1s";
+
+canvas.style.transition=
+"opacity 1s";
+
+
 
 canvas.style.opacity="0";
 
 
-
-// 动画
 
 document
 .querySelector(".scratch-card")
@@ -445,31 +564,52 @@ document
 showPopup();
 
 
-}
-
-
 
 }
 
 
 
+}
 
-// =========================
-// 中奖弹窗
-// =========================
+
+
+
+
+
+
+
+// ===============================
+// 中奖动画
+// ===============================
 
 
 function showPopup(){
 
 
-document
-.getElementById("popup-text")
-.innerHTML=
+
+let popup =
+document.getElementById("popup");
+
+
+
+let text =
+document.getElementById("popup-text");
+
+
+
+if(!popup||!text)
+return;
+
+
+
+text.innerHTML=
 
 `
 ${result.icon}
 <br>
 ${result.title}
+<br>
+${result.level}
 <br>
 ${result.reward}
 <br>
@@ -478,18 +618,14 @@ ${result.desc}
 
 
 
-document
-.getElementById("popup")
-.style.display="flex";
+popup.style.display="flex";
 
 
 
 setTimeout(()=>{
 
 
-document
-.getElementById("popup")
-.style.display="none";
+popup.style.display="none";
 
 
 },3000);
@@ -497,11 +633,3 @@ document
 
 
 }
-
-
-
-// 启动
-
-showResult();
-
-initScratch();
