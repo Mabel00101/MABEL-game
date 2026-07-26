@@ -1,84 +1,63 @@
-const fortunes = [
+const fortunes=[
+
 
 {
 title:"乾卦 · 飞龙在天",
-level:"一等奖",
+level:"上上签",
 reward:"888积分",
 desc:"事业腾飞，贵人相助",
 icon:"🐉"
 },
 
-{
-title:"坤卦 · 厚德载物",
-level:"二等奖",
-reward:"500积分",
-desc:"稳中有升，福运绵长",
-icon:"🌿"
-},
 
 {
-title:"离卦 · 火照四方",
-level:"三等奖",
-reward:"200积分",
-desc:"灵感爆发，好运相随",
+title:"坤卦 · 厚德载物",
+level:"大吉",
+reward:"666积分",
+desc:"积累福气，好运连连",
+icon:"🌏"
+},
+
+
+{
+title:"火天大有",
+level:"上上签",
+reward:"999积分",
+desc:"财运旺盛",
 icon:"🔥"
 },
 
-{
-title:"震卦 · 雷动九天",
-level:"幸运奖",
-reward:"100积分",
-desc:"突破困境，迎来机会",
-icon:"⚡"
-},
 
 {
-title:"随机签",
-level:"谢谢参与",
-reward:"好运继续",
-desc:"下次会有惊喜",
-icon:"🍀"
+title:"水山蹇",
+level:"小吉",
+reward:"88积分",
+desc:"先难后易",
+icon:"💧"
+},
+
+
+{
+title:"雷风恒",
+level:"吉签",
+reward:"188积分",
+desc:"坚持必有收获",
+icon:"⚡"
 }
+
 
 ];
 
 
-// 随机抽签
 
 function getFortune(){
 
-let r=Math.random()*100;
+let i=Math.floor(
+Math.random()*fortunes.length
+);
 
 
-if(r<10){
-
-return fortunes[0];
-
-}
-
-else if(r<30){
-
-return fortunes[1];
-
-}
-
-else if(r<60){
-
-return fortunes[2];
-
-}
-
-else if(r<85){
-
-return fortunes[3];
-
-}
-
-else{
-
-return fortunes[4];
-
-}
+return fortunes[i];
 
 
 }
