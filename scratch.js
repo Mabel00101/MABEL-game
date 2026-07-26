@@ -1,67 +1,40 @@
-const canvas =
-document.getElementById("scratch");
+const canvas=document.getElementById("scratch");
 
-
-const ctx =
-canvas.getContext("2d");
-
-
+const ctx=canvas.getContext("2d");
 
 let drawing=false;
 
 
+// 获取随机结果
 
 let result=getFortune();
 
 
 
-//显示中奖信息
-
-document.getElementById(
-"fortuneTitle"
-).innerHTML=
+document.getElementById("title").innerHTML=
 result.icon+" "+result.title;
 
 
-document.getElementById(
-"fortuneLevel"
-).innerHTML=
-result.level;
+document.getElementById("reward").innerHTML=
+result.level+" · "+result.reward;
 
 
-document.getElementById(
-"fortuneReward"
-).innerHTML=
-"🎁 "+result.reward;
-
-
-document.getElementById(
-"fortuneDesc"
-).innerHTML=
+document.getElementById("desc").innerHTML=
 result.desc;
 
 
 
-
+// 初始化银膜
 
 function initScratch(){
 
 
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
+ctx.clearRect(0,0,420,240);
 
 
 
-let g=
-ctx.createLinearGradient(
-0,
-0,
-420,
-240
+let g=ctx.createLinearGradient(
+0,0,420,240
 );
 
 
@@ -86,7 +59,6 @@ g.addColorStop(
 
 ctx.fillStyle=g;
 
-
 ctx.fillRect(
 0,
 0,
@@ -96,11 +68,10 @@ ctx.fillRect(
 
 
 
-ctx.fillStyle="#666";
-
+ctx.fillStyle="#777";
 
 ctx.font=
-"bold 28px Microsoft YaHei";
+"bold 30px Microsoft YaHei";
 
 
 ctx.textAlign="center";
@@ -117,11 +88,11 @@ ctx.fillText(
 }
 
 
-
 initScratch();
 
 
 
+// 擦除
 
 
 function erase(e){
@@ -140,33 +111,17 @@ let y;
 if(e.touches){
 
 
-x=
-e.touches[0].clientX
--
-rect.left;
+x=e.touches[0].clientX-rect.left;
+
+y=e.touches[0].clientY-rect.top;
 
 
-y=
-e.touches[0].clientY
--
-rect.top;
+}else{
 
 
-}
+x=e.clientX-rect.left;
 
-else{
-
-
-x=
-e.clientX
--
-rect.left;
-
-
-y=
-e.clientY
--
-rect.top;
+y=e.clientY-rect.top;
 
 
 }
@@ -191,39 +146,29 @@ Math.PI*2
 );
 
 
-
 ctx.fill();
-
 
 
 ctx.globalCompositeOperation=
 "source-over";
 
-
-
 }
 
 
 
+// 鼠标
 
 
-canvas.addEventListener(
-"mousedown",
-(e)=>{
+canvas.onmousedown=function(e){
 
 drawing=true;
 
 erase(e);
 
 }
-);
 
 
-
-canvas.addEventListener(
-"mousemove",
-(e)=>{
-
+canvas.onmousemove=function(e){
 
 if(drawing){
 
@@ -231,71 +176,84 @@ erase(e);
 
 }
 
-
 }
-);
 
 
-
-window.addEventListener(
-"mouseup",
-()=>{
+canvas.onmouseup=function(){
 
 drawing=false;
 
+showWin();
 
 }
-);
 
 
 
 
+// 手机
 
 
-canvas.addEventListener(
-"touchstart",
-(e)=>{
+canvas.ontouchstart=function(e){
 
 drawing=true;
 
 erase(e);
 
-
 }
-);
 
 
 
-canvas.addEventListener(
-"touchmove",
-(e)=>{
-
+canvas.ontouchmove=function(e){
 
 e.preventDefault();
 
-
-if(drawing){
-
 erase(e);
 
+
 }
 
 
-},
-{
-passive:false
-}
-);
 
-
-
-canvas.addEventListener(
-"touchend",
-()=>{
-
+canvas.ontouchend=function(){
 
 drawing=false;
 
+showWin();
 
 }
-);
+
+
+
+//中奖动画
+
+function showWin(){
+
+
+document.getElementById("wintext")
+.innerHTML=
+
+result.icon+
+" "+
+result.title+
+"<br>"+
+result.reward;
+
+
+
+document.getElementById("win")
+.style.display="flex";
+
+
+}
+
+
+
+
+function closeWin(){
+
+
+document.getElementById("win")
+.style.display="none";
+
+
+}
