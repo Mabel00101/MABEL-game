@@ -1,74 +1,48 @@
 const canvas=document.getElementById("scratch");
-
 const ctx=canvas.getContext("2d");
 
 
 let drawing=false;
 
 
+// 随机结果
+
 let result=getFortune();
 
 
 
-document.getElementById("result").innerHTML=
+document.querySelector("#reward h2").innerHTML=
+result.icon+" "+result.title;
 
-`
-<h2>${result.icon} ${result.title}</h2>
 
-<p>${result.reward}</p>
+document.querySelector("#reward p").innerHTML=
+result.reward;
 
-<h3>${result.level}</h3>
 
-<p>${result.desc}</p>
-
-`;
+document.querySelector("#reward h3").innerHTML=
+result.desc;
 
 
 
-
-// 初始化银膜
+// 初始化刮层
 
 function initScratch(){
 
 
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
+ctx.clearRect(0,0,420,240);
 
 
 let g=ctx.createLinearGradient(
-0,
-0,
-420,
-240
+0,0,420,240
 );
 
 
-g.addColorStop(
-0,
-"#eeeeee"
-);
-
-
-g.addColorStop(
-0.5,
-"#999999"
-);
-
-
-g.addColorStop(
-1,
-"#eeeeee"
-);
-
+g.addColorStop(0,"#eeeeee");
+g.addColorStop(0.5,"#999999");
+g.addColorStop(1,"#eeeeee");
 
 
 ctx.fillStyle=g;
-
 
 ctx.fillRect(
 0,
@@ -81,10 +55,7 @@ ctx.fillRect(
 
 ctx.fillStyle="#666";
 
-
-ctx.font=
-"bold 30px Microsoft YaHei";
-
+ctx.font="bold 28px Microsoft YaHei";
 
 ctx.textAlign="center";
 
@@ -99,10 +70,7 @@ ctx.fillText(
 }
 
 
-
-
 initScratch();
-
 
 
 
@@ -111,32 +79,24 @@ initScratch();
 function erase(e){
 
 
-let rect=
-canvas.getBoundingClientRect();
+let rect=canvas.getBoundingClientRect();
+
+
+let x=e.clientX-rect.left;
+
+let y=e.clientY-rect.top;
 
 
 
-let x=
-e.clientX-rect.left;
-
-
-let y=
-e.clientY-rect.top;
-
-
-
-ctx.globalCompositeOperation=
-"destination-out";
-
+ctx.globalCompositeOperation="destination-out";
 
 
 ctx.beginPath();
 
-
 ctx.arc(
 x,
 y,
-30,
+28,
 0,
 Math.PI*2
 );
@@ -145,105 +105,60 @@ Math.PI*2
 ctx.fill();
 
 
+ctx.globalCompositeOperation="source-over";
 
-ctx.globalCompositeOperation=
-"source-over";
 
 }
 
 
+// 鼠标
 
 
-canvas.addEventListener(
-"mousedown",
-()=>{
+canvas.onmousedown=function(e){
 
 drawing=true;
 
-}
-);
+erase(e);
+
+};
 
 
-
-canvas.addEventListener(
-"mouseup",
-()=>{
+canvas.onmouseup=function(){
 
 drawing=false;
 
+
 checkWin();
 
-}
-);
+};
 
 
 
-canvas.addEventListener(
-"mousemove",
-(e)=>{
+canvas.onmousemove=function(e){
 
-
-if(drawing)
+if(drawing){
 
 erase(e);
 
-
 }
 
-);
+};
 
 
 
-
+// 判断刮开
 
 function checkWin(){
-
-
-showPopup();
-
-
-}
-
-
-
-
-function showPopup(){
-
-
-let box=
-document.getElementById("popup");
-
-
-document.getElementById("popupText").innerHTML=
-
-`
-${result.icon}
-
-${result.title}
-
-<br>
-
-${result.reward}
-
-<br>
-
-${result.level}
-
-`;
-
-
-
-box.style.display="flex";
 
 
 setTimeout(()=>{
 
 
-box.style.display="none";
+document.querySelector(".reward")
+.classList.add("show");
 
 
-},3000);
-
+},500);
 
 
 }
