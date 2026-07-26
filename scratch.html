@@ -2,57 +2,139 @@
 <html lang="zh-CN">
 
 <head>
+
 <meta charset="UTF-8">
-<title>幸运刮刮乐</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+国风天机 · 幸运刮刮乐
+</title>
+
 
 <link rel="stylesheet" href="style.css">
 
 </head>
 
 
+
 <body>
 
 
-<div class="luck">
-
-<h1>🧧 吉祥如意刮刮乐</h1>
+<div class="game-container">
 
 
-<div class="card">
+<h1>
+🧧 国风天机刮刮乐
+</h1>
 
 
-<div id="result">
+<p class="subtitle">
+刮开银膜，揭晓今日卦象
+</p>
 
-<h2 id="prize">等待开奖</h2>
+
+
+
+<!-- 刮刮乐卡片 -->
+
+<div class="scratch-card">
+
+
+
+<!-- 背后的中奖内容 -->
+
+<div class="fortune-result">
+
+
+<div id="icon">
+☯
+</div>
+
+
+<h2 id="title">
+神秘卦象
+</h2>
+
+
+<p id="reward">
+等待揭晓
+</p>
+
 
 <p id="desc">
-刮开银膜查看今日天机
+今日天机隐藏其中
 </p>
+
 
 </div>
 
 
-<canvas id="scratch"
+
+
+
+<!-- 银色刮层 -->
+
+<canvas
+id="scratch"
 width="420"
 height="240">
 </canvas>
 
 
+
 </div>
 
 
+
+
 <p class="tip">
-刮开银膜，揭晓今日天机
+
+🖱️ 按住鼠标拖动刮开  
+<br>
+📱 手机直接滑动
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- 动画提示 -->
+
+<div id="popup">
+
+
+<div class="popup-box">
+
+
+<h2>
+🎉 天机揭晓
+</h2>
+
+
+<p id="popup-text">
+
 </p>
 
 
 </div>
+
+
+</div>
+
 
 
 
 <script src="fortune.js"></script>
 
 <script src="scratch.js"></script>
+
 
 
 </body>
