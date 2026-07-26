@@ -1,29 +1,19 @@
-const c=document.getElementById('card');
+const c=document.getElementById('scratch');
 const x=c.getContext('2d');
-x.fillStyle='#aaa';
-x.fillRect(0,0,320,180);
-x.fillStyle='#333';
-x.font='28px Microsoft YaHei';
-x.fillText('刮 开 查 看',80,100);
-x.globalCompositeOperation='destination-out';
-
-let down=false;
-c.onmousedown=()=>down=true;
-c.onmouseup=()=>down=false;
-c.onmousemove=e=>{
-if(!down)return;
+x.fillStyle='#bfc0c0';
+x.fillRect(0,0,c.width,c.height);
+x.fillStyle='#777';
+x.font='30px Microsoft YaHei';
+x.fillText('刮开银膜',110,120);
+let d=false;
+function cut(e){
+if(!d)return;
 let r=c.getBoundingClientRect();
+x.globalCompositeOperation='destination-out';
 x.beginPath();
-x.arc(e.clientX-r.left,e.clientY-r.top,18,0,7);
+x.arc(e.clientX-r.left,e.clientY-r.top,30,0,Math.PI*2);
 x.fill();
-show();
-};
-function show(){
-let d=x.getImageData(0,0,320,180),n=0;
-for(let i=3;i<d.data.length;i+=4)
-if(d.data[i]===0)n++;
-if(n>20000){
-c.style.display='none';
-document.getElementById('result').classList.remove('hide');
 }
-}
+c.onmousedown=()=>d=true;
+c.onmouseup=()=>d=false;
+c.onmousemove=cut;

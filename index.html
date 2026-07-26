@@ -2,34 +2,38 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>MABEL幸运星第二版</title>
+<title>MABEL幸运星 V3.0</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="stars">✨ ☁️ ✨</div>
 <div class="container">
-<h1>⭐ MABEL游戏<br>之无敌幸运星</h1>
+<h1>⭐ MABEL幸运星<br>国风天机</h1>
+<div class="luck">今日幸运值：<span id="luck">86</span></div>
 
-<div class="scratch">
-<h2>🧧 幸运刮刮乐</h2>
-<canvas id="card" width="320" height="180"></canvas>
-<p>刮开银色区域查看今日运势</p>
+<section class="ticket-box">
+<h2>🎟 吉祥如意刮刮乐</h2>
+<div class="ticket">
+<div class="card">
+<h3>吉祥如意</h3>
+<p>10次中奖机会</p>
+<div id="answer">🔥 火天大有 · 上上签</div>
+</div>
+<canvas id="scratch" width="380" height="230"></canvas>
+</div>
+<p>刮开银膜，揭晓今日天机</p>
+</section>
+
+<div class="god">🧙‍♂️✨ 财神降临 ✨🧙‍♂️</div>
+
+<div class="scroll">
+<h2>📜 今日黄历</h2>
+<div id="fortuneText"></div>
 </div>
 
-<div id="result" class="result hide">
-<div class="god">☁️✨ 神仙降临 ✨☁️</div>
-<h2>火天大有 · 上上签</h2>
-<p>今日宜：学习、创作、社交</p>
-<p>今日忌：冲动消费、争执</p>
-<p>幸运颜色：金色　幸运方位：东南</p>
+<a href="collection.html">🃏 卦象图鉴</a>
 </div>
-
-<h2>☯ 卦象图鉴</h2>
-<div class="cards">
-<div>乾为天<br>★★★★★</div>
-<div>水火既济<br>★★★★</div>
-<div>震为雷<br>★★★</div>
-</div>
-</div>
-<script src="js/scratch.js"></script>
+<script src="fortune.js"></script>
+<script src="scratch.js"></script>
 </body>
 </html>
