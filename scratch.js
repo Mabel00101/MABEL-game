@@ -2,25 +2,27 @@ const canvas=document.getElementById("scratch");
 
 const ctx=canvas.getContext("2d");
 
+
 let drawing=false;
 
-
-// 获取随机结果
 
 let result=getFortune();
 
 
 
-document.getElementById("title").innerHTML=
-result.icon+" "+result.title;
+document.getElementById("result").innerHTML=
 
+`
+<h2>${result.icon} ${result.title}</h2>
 
-document.getElementById("reward").innerHTML=
-result.level+" · "+result.reward;
+<p>${result.reward}</p>
 
+<h3>${result.level}</h3>
 
-document.getElementById("desc").innerHTML=
-result.desc;
+<p>${result.desc}</p>
+
+`;
+
 
 
 
@@ -29,12 +31,20 @@ result.desc;
 function initScratch(){
 
 
-ctx.clearRect(0,0,420,240);
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
 
 
 
 let g=ctx.createLinearGradient(
-0,0,420,240
+0,
+0,
+420,
+240
 );
 
 
@@ -59,6 +69,7 @@ g.addColorStop(
 
 ctx.fillStyle=g;
 
+
 ctx.fillRect(
 0,
 0,
@@ -68,7 +79,8 @@ ctx.fillRect(
 
 
 
-ctx.fillStyle="#777";
+ctx.fillStyle="#666";
+
 
 ctx.font=
 "bold 30px Microsoft YaHei";
@@ -84,16 +96,17 @@ ctx.fillText(
 );
 
 
-
 }
+
+
 
 
 initScratch();
 
 
 
-// 擦除
 
+// 擦除
 
 function erase(e){
 
@@ -103,29 +116,12 @@ canvas.getBoundingClientRect();
 
 
 
-let x;
-let y;
+let x=
+e.clientX-rect.left;
 
 
-
-if(e.touches){
-
-
-x=e.touches[0].clientX-rect.left;
-
-y=e.touches[0].clientY-rect.top;
-
-
-}else{
-
-
-x=e.clientX-rect.left;
-
-y=e.clientY-rect.top;
-
-
-}
-
+let y=
+e.clientY-rect.top;
 
 
 
@@ -140,13 +136,14 @@ ctx.beginPath();
 ctx.arc(
 x,
 y,
-25,
+30,
 0,
 Math.PI*2
 );
 
 
 ctx.fill();
+
 
 
 ctx.globalCompositeOperation=
@@ -156,104 +153,97 @@ ctx.globalCompositeOperation=
 
 
 
-// 鼠标
 
-
-canvas.onmousedown=function(e){
-
-drawing=true;
-
-erase(e);
-
-}
-
-
-canvas.onmousemove=function(e){
-
-if(drawing){
-
-erase(e);
-
-}
-
-}
-
-
-canvas.onmouseup=function(){
-
-drawing=false;
-
-showWin();
-
-}
-
-
-
-
-// 手机
-
-
-canvas.ontouchstart=function(e){
+canvas.addEventListener(
+"mousedown",
+()=>{
 
 drawing=true;
 
-erase(e);
-
 }
+);
 
 
 
-canvas.ontouchmove=function(e){
-
-e.preventDefault();
-
-erase(e);
-
-
-}
-
-
-
-canvas.ontouchend=function(){
+canvas.addEventListener(
+"mouseup",
+()=>{
 
 drawing=false;
 
-showWin();
+checkWin();
+
+}
+);
+
+
+
+canvas.addEventListener(
+"mousemove",
+(e)=>{
+
+
+if(drawing)
+
+erase(e);
+
+
+}
+
+);
+
+
+
+
+
+function checkWin(){
+
+
+showPopup();
+
 
 }
 
 
 
-//中奖动画
 
-function showWin(){
-
-
-document.getElementById("wintext")
-.innerHTML=
-
-result.icon+
-" "+
-result.title+
-"<br>"+
-result.reward;
+function showPopup(){
 
 
-
-document.getElementById("win")
-.style.display="flex";
-
-
-}
+let box=
+document.getElementById("popup");
 
 
+document.getElementById("popupText").innerHTML=
+
+`
+${result.icon}
+
+${result.title}
+
+<br>
+
+${result.reward}
+
+<br>
+
+${result.level}
+
+`;
 
 
-function closeWin(){
+
+box.style.display="flex";
 
 
-document.getElementById("win")
-.style.display="none";
+setTimeout(()=>{
+
+
+box.style.display="none";
+
+
+},3000);
+
 
 
 }
