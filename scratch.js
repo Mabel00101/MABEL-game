@@ -1,325 +1,344 @@
-const canvas=document.getElementById("scratch");
-const ctx=canvas.getContext("2d");
+const canvas = document.getElementById("scratch");
+const ctx = canvas.getContext("2d");
+
+canvas.width = 420;
+canvas.height = 240;
 
 
-let drawing=false;
-
-let finished=false;
+let drawing = false;
+let finished = false;
 
 
 // 获取随机结果
-
-let fortune=getFortune();
-
+let result = getFortune();
 
 
-document.getElementById("prize").innerHTML=
-fortune.title;
-
-
-document.getElementById("desc").innerHTML=
-fortune.desc;
-
-
-
-// 初始化银膜
-
+// 初始化
 function initScratch(){
 
 
-ctx.globalCompositeOperation="source-over";
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
 
-let g=ctx.createLinearGradient(
-0,
-0,
-420,
-240
-);
+    // 显示中奖内容
+    ctx.globalCompositeOperation="source-over";
 
 
-g.addColorStop(0,"#eeeeee");
-g.addColorStop(0.5,"#999");
-g.addColorStop(1,"#eeeeee");
+    ctx.fillStyle="#8b1e1e";
+
+    ctx.fillRect(
+        0,
+        0,
+        420,
+        240
+    );
 
 
-ctx.fillStyle=g;
+    ctx.fillStyle="#ffd86b";
 
-ctx.fillRect(
-0,
-0,
-420,
-240
-);
+    ctx.textAlign="center";
 
 
+    ctx.font="bold 32px Microsoft YaHei";
 
-ctx.fillStyle="#666";
-
-ctx.font="bold 32px Microsoft YaHei";
-
-ctx.textAlign="center";
-
-
-ctx.fillText(
-"刮开此处",
-210,
-130
-);
+    ctx.fillText(
+        result.title,
+        210,
+        80
+    );
 
 
+    ctx.font="24px Microsoft YaHei";
+
+    ctx.fillText(
+        result.icon+" "+result.reward,
+        210,
+        130
+    );
+
+
+    ctx.font="20px Microsoft YaHei";
+
+    ctx.fillText(
+        result.desc,
+        210,
+        175
+    );
+
+
+
+    // 重新盖刮层
+
+    ctx.globalCompositeOperation="source-over";
+
+
+    let g=ctx.createLinearGradient(
+        0,
+        0,
+        420,
+        240
+    );
+
+
+    g.addColorStop(
+        0,
+        "#eeeeee"
+    );
+
+
+    g.addColorStop(
+        0.5,
+        "#999999"
+    );
+
+
+    g.addColorStop(
+        1,
+        "#eeeeee"
+    );
+
+
+    ctx.fillStyle=g;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        420,
+        240
+    );
+
+
+
+    ctx.fillStyle="#777";
+
+
+    ctx.font="bold 30px Microsoft YaHei";
+
+
+    ctx.fillText(
+        "刮开此处",
+        210,
+        130
+    );
 
 }
 
 
 
-initScratch();
-
-
-
-
+// 擦除
 
 function erase(e){
 
 
-if(finished)return;
+    if(finished)return;
 
 
-let rect=canvas.getBoundingClientRect();
+    let rect=
+    canvas.getBoundingClientRect();
 
 
-let x;
-let y;
-
-
-
-if(e.touches){
-
-x=e.touches[0].clientX-rect.left;
-
-y=e.touches[0].clientY-rect.top;
-
-
-}else{
-
-
-x=e.clientX-rect.left;
-
-y=e.clientY-rect.top;
-
-
-}
+    let x;
+    let y;
 
 
 
-ctx.globalCompositeOperation=
-"destination-out";
+    if(e.touches){
+
+        x=e.touches[0].clientX-rect.left;
+        y=e.touches[0].clientY-rect.top;
+
+
+    }else{
+
+
+        x=e.clientX-rect.left;
+        y=e.clientY-rect.top;
+
+    }
 
 
 
-ctx.beginPath();
+    ctx.globalCompositeOperation=
+    "destination-out";
 
 
-ctx.arc(
-x,
-y,
-28,
-0,
-Math.PI*2
-);
+    ctx.beginPath();
 
 
-ctx.fill();
+    ctx.arc(
+        x,
+        y,
+        30,
+        0,
+        Math.PI*2
+    );
+
+
+    ctx.fill();
 
 
 
-check();
-
-
+    ctx.globalCompositeOperation=
+    "source-over";
 
 }
 
 
 
-
-
-function check(){
-
-
-let img=
-ctx.getImageData(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-let clear=0;
-
-
-
-for(let i=3;i<img.data.length;i+=4){
-
-if(img.data[i]<10){
-
-clear++;
-
-}
-
-}
-
-
-
-if(clear>
-canvas.width*canvas.height*0.45){
-
-
-finished=true;
-
-
-canvas.style.opacity=0;
-
-
-showAnimation();
-
-
-}
-
-
-
-}
-
-
-
-
-
-
+// 鼠标
 
 canvas.addEventListener(
 "mousedown",
-()=>{
+function(e){
+
 drawing=true;
-}
-);
+erase(e);
 
-
-
-canvas.addEventListener(
-"mouseup",
-()=>{
-drawing=false;
-}
-);
-
+});
 
 
 canvas.addEventListener(
 "mousemove",
-(e)=>{
+function(e){
 
 if(drawing)
 erase(e);
 
-
-}
-);
+});
 
 
 
+window.addEventListener(
+"mouseup",
+function(){
+
+drawing=false;
+
+});
 
 
+
+
+// 手机
 
 canvas.addEventListener(
 "touchstart",
-()=>{
+function(e){
+
 drawing=true;
-}
-);
 
+erase(e);
 
-
-canvas.addEventListener(
-"touchend",
-()=>{
-drawing=false;
-}
-);
+});
 
 
 
 canvas.addEventListener(
 "touchmove",
-(e)=>{
-
+function(e){
 
 e.preventDefault();
-
 
 if(drawing)
 erase(e);
 
 
-
 },
 {
 passive:false
+});
+
+
+
+window.addEventListener(
+"touchend",
+function(){
+
+drawing=false;
+
+});
+
+
+
+
+
+// 刮开完成检测
+
+function checkScratch(){
+
+
+let pixels=
+ctx.getImageData(
+0,
+0,
+420,
+240
+).data;
+
+
+let clear=0;
+
+
+for(
+let i=3;
+i<pixels.length;
+i+=4
+){
+
+if(pixels[i]==0)
+clear++;
+
 }
-);
 
 
 
+if(
+clear>420*240*0.45
+&& !finished
+){
 
 
+finished=true;
 
 
 // 中奖动画
 
-
-function showAnimation(){
-
-
-let box=document.getElementById("result");
+canvas.style.animation=
+"win .8s";
 
 
-box.classList.add("win");
+setTimeout(
+function(){
+
+alert(
+"🎉 恭喜："+result.title+
+"\n"+result.reward
+);
 
 
-
-for(let i=0;i<30;i++){
-
-
-let star=document.createElement("span");
+},
+500
+);
 
 
-star.innerHTML="✨";
-
-
-star.className="star";
-
-
-star.style.left=
-Math.random()*100+"%";
-
-
-star.style.top=
-Math.random()*100+"%";
-
-
-box.appendChild(star);
-
-
-
-setTimeout(()=>{
-
-star.remove();
-
-},2000);
+}
 
 
 }
 
 
 
-}
+setInterval(
+checkScratch,
+500
+);
+
+
+
+initScratch();
