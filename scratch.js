@@ -139,3 +139,63 @@ canvas.addEventListener(
 "touchend",
 end
 );
+
+// 鼠标刮开
+canvas.addEventListener("mousedown",()=>{
+    drawing=true;
+});
+
+canvas.addEventListener("mouseup",()=>{
+    drawing=false;
+});
+
+canvas.addEventListener("mousemove",(e)=>{
+    if(!drawing) return;
+
+    let rect=canvas.getBoundingClientRect();
+
+    let x=e.clientX-rect.left;
+    let y=e.clientY-rect.top;
+
+    ctx.globalCompositeOperation="destination-out";
+
+    ctx.beginPath();
+    ctx.arc(x,y,25,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.globalCompositeOperation="source-over";
+});
+
+
+// 手机触摸
+canvas.addEventListener("touchstart",()=>{
+    drawing=true;
+});
+
+canvas.addEventListener("touchend",()=>{
+    drawing=false;
+});
+
+canvas.addEventListener("touchmove",(e)=>{
+
+    e.preventDefault();
+
+    let rect=canvas.getBoundingClientRect();
+
+    let touch=e.touches[0];
+
+    let x=touch.clientX-rect.left;
+    let y=touch.clientY-rect.top;
+
+
+    ctx.globalCompositeOperation="destination-out";
+
+    ctx.beginPath();
+    ctx.arc(x,y,25,0,Math.PI*2);
+    ctx.fill();
+
+
+    ctx.globalCompositeOperation="source-over";
+
+},{passive:false});
+initScratch();
