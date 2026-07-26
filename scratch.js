@@ -6,24 +6,21 @@ canvas.height = 240;
 
 let drawing = false;
 
-// 初始化刮层
+
+// 初始化银膜
 function initScratch(){
 
-    ctx.clearRect(0,0,420,240);
+    let gradient = ctx.createLinearGradient(0,0,420,240);
 
-    // 银色刮层
-    let g = ctx.createLinearGradient(0,0,420,240);
+    gradient.addColorStop(0,"#f5f5f5");
+    gradient.addColorStop(0.5,"#999");
+    gradient.addColorStop(1,"#eee");
 
-    g.addColorStop(0,"#eeeeee");
-    g.addColorStop(0.5,"#bbbbbb");
-    g.addColorStop(1,"#eeeeee");
-
-    ctx.fillStyle=g;
+    ctx.fillStyle = gradient;
     ctx.fillRect(0,0,420,240);
 
 
-    // 刮层文字
-    ctx.fillStyle="#888";
+    ctx.fillStyle="#666";
     ctx.font="bold 28px Microsoft YaHei";
     ctx.textAlign="center";
 
@@ -32,52 +29,26 @@ function initScratch(){
         210,
         130
     );
-
 }
 
 
-initScratch();
+// 获取鼠标位置
+function getPosition(e){
 
+    let rect = canvas.getBoundingClientRect();
 
-// 开始刮
-function start(e){
-    drawing=true;
-    erase(e);
-}
+    return {
+        x:e.clientX - rect.left,
+        y:e.clientY - rect.top
+    };
 
-function end(){
-    drawing=false;
-}
-
-
-function move(e){
-
-    if(!drawing)return;
-
-    erase(e);
 }
 
 
 // 擦除
 function erase(e){
 
-    let rect=canvas.getBoundingClientRect();
-
-    let x;
-    let y;
-
-
-    if(e.touches){
-
-        x=e.touches[0].clientX-rect.left;
-        y=e.touches[0].clientY-rect.top;
-
-    }else{
-
-        x=e.clientX-rect.left;
-        y=e.clientY-rect.top;
-
-    }
+    let pos=getPosition(e);
 
 
     ctx.globalCompositeOperation="destination-out";
@@ -86,8 +57,8 @@ function erase(e){
     ctx.beginPath();
 
     ctx.arc(
-        x,
-        y,
+        pos.x,
+        pos.y,
         25,
         0,
         Math.PI*2
@@ -97,105 +68,44 @@ function erase(e){
 
 
     ctx.globalCompositeOperation="source-over";
-
 }
 
 
 
-// 鼠标
+// 鼠标按下
 canvas.addEventListener(
 "mousedown",
-start
-);
+function(e){
+
+    drawing=true;
+    erase(e);
+
+});
 
 
+// 移动
 canvas.addEventListener(
 "mousemove",
-move
-);
+function(e){
+
+    if(drawing){
+
+        erase(e);
+
+    }
+
+});
 
 
-canvas.addEventListener(
+// 松开
+window.addEventListener(
 "mouseup",
-end
-);
+function(){
 
-
-
-// 手机
-canvas.addEventListener(
-"touchstart",
-start
-);
-
-
-canvas.addEventListener(
-"touchmove",
-move
-);
-
-
-canvas.addEventListener(
-"touchend",
-end
-);
-
-// 鼠标刮开
-canvas.addEventListener("mousedown",()=>{
-    drawing=true;
-});
-
-canvas.addEventListener("mouseup",()=>{
     drawing=false;
-});
 
-canvas.addEventListener("mousemove",(e)=>{
-    if(!drawing) return;
-
-    let rect=canvas.getBoundingClientRect();
-
-    let x=e.clientX-rect.left;
-    let y=e.clientY-rect.top;
-
-    ctx.globalCompositeOperation="destination-out";
-
-    ctx.beginPath();
-    ctx.arc(x,y,25,0,Math.PI*2);
-    ctx.fill();
-
-    ctx.globalCompositeOperation="source-over";
 });
 
 
-// 手机触摸
-canvas.addEventListener("touchstart",()=>{
-    drawing=true;
-});
 
-canvas.addEventListener("touchend",()=>{
-    drawing=false;
-});
-
-canvas.addEventListener("touchmove",(e)=>{
-
-    e.preventDefault();
-
-    let rect=canvas.getBoundingClientRect();
-
-    let touch=e.touches[0];
-
-    let x=touch.clientX-rect.left;
-    let y=touch.clientY-rect.top;
-
-
-    ctx.globalCompositeOperation="destination-out";
-
-    ctx.beginPath();
-    ctx.arc(x,y,25,0,Math.PI*2);
-    ctx.fill();
-
-
-    ctx.globalCompositeOperation="source-over";
-
-},{passive:false});
 initScratch();
