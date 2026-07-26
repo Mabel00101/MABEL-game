@@ -1,38 +1,88 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 
 <head>
+
 <meta charset="UTF-8">
-<title>幸运刮刮乐</title>
+
+<title>国风天机</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
+<h1>
+国风天机
+</h1>
+
+
+<p>
+今日幸运值：86
+</p>
+
+
+
 <div class="ticket">
 
-<h1>🎟 幸运刮刮乐</h1>
+
+<h2>
+✨ 吉祥如意刮刮乐 ✨
+</h2>
+
+
 
 <div class="card">
 
+
 <div class="reward">
-<h2>🎉 吉祥如意 🎉</h2>
-<p>10次中奖机会</p>
-<h3>🔥 火天大有 · 上上签</h3>
+
+
+<h2 id="fortuneTitle">
+生成中...
+</h2>
+
+
+<p id="fortuneLevel"></p>
+
+
+<h3 id="fortuneReward"></h3>
+
+
+<p id="fortuneDesc"></p>
+
+
 </div>
 
-<canvas id="scratch" width="420" height="240"></canvas>
+
+
+<canvas 
+id="scratch"
+width="420"
+height="240">
+</canvas>
+
 
 </div>
+
 
 <p class="tip">
 刮开银膜，揭晓今日天机
 </p>
 
+
 </div>
 
 
+
+<script src="fortune.js"></script>
+
 <script src="scratch.js"></script>
+
 
 </body>
 
