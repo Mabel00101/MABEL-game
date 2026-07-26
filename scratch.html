@@ -1,105 +1,75 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
-
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<title>
-国风天机 · 幸运刮刮乐
-</title>
-
+<title>国风天机</title>
 
 <link rel="stylesheet" href="style.css">
 
-
 </head>
-
 
 
 <body>
 
 
-<div class="ticket">
+<div class="game">
 
 
-<h1>
-🧧 国风天机刮刮乐
-</h1>
+<h1>🪄 吉祥如意刮刮乐</h1>
 
 
-<p class="luck">
-今日天机已生成 · 请刮开银膜
-</p>
+<div class="fortune-card">
 
 
+<div id="result">
 
-<div class="card">
+<h2>等待揭晓</h2>
 
-
-
-<!-- 真实中奖区域 -->
-
-<div class="reward">
-
-
-<h2>
-🔮 神秘卦象
-</h2>
-
-
-<p>
-刮开后揭晓
-</p>
-
-
-<h3>
-☯ 今日运势
-</h3>
-
+<p>刮开银膜查看今日天机</p>
 
 </div>
 
 
-
-<!-- 银膜 -->
-
-<canvas 
-id="scratch"
+<canvas id="scratch"
 width="420"
 height="240">
 </canvas>
 
 
-
 </div>
-
 
 
 <p class="tip">
-
-✋ 按住鼠标拖动刮开银膜
-
+刮开银膜，揭晓今日天机
 </p>
-
 
 
 </div>
 
 
 
+<div id="popup">
+
+<div class="popup-box">
+
+<h1>🎉 恭喜中奖</h1>
+
+<div id="popupText"></div>
+
+</div>
+
+</div>
 
 
-<!-- JS加载顺序非常重要 -->
+
+<script src="fortune.js"></script>
 
 <script src="scratch.js"></script>
 
 
 </body>
-
 
 </html>
