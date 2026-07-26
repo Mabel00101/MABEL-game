@@ -1,98 +1,116 @@
 const canvas = document.getElementById("scratch");
 const ctx = canvas.getContext("2d");
 
+
 canvas.width = 420;
 canvas.height = 240;
 
 
-let drawing = false;
 
+// =========================
+// 随机卦象结果
+// =========================
 
-// 随机结果
 const results = [
 
 {
+icon:"🐉",
 title:"乾卦 · 飞龙在天",
-reward:"一等奖 ¥888",
+reward:"888积分",
 desc:"事业腾飞，贵人相助",
-level:"gold"
+level:"上上签"
 },
 
+
 {
+icon:"🔥",
+title:"火天大有",
+reward:"666积分",
+desc:"财运旺盛，收获满满",
+level:"上上签"
+},
+
+
+{
+icon:"🌿",
 title:"坤卦 · 厚德载物",
-reward:"二等奖 ¥288",
+reward:"388积分",
 desc:"积累福气，稳步前行",
-level:"silver"
+level:"上签"
 },
 
-{
-title:"离卦 · 光明未来",
-reward:"幸运奖 ¥88",
-desc:"前方有好运",
-level:"blue"
-},
 
 {
-title:"无奖",
-reward:"再接再厉",
-desc:"下次好运降临",
-level:"none"
+icon:"⚡",
+title:"雷风恒",
+reward:"188积分",
+desc:"坚持之后必有收获",
+level:"中签"
+},
+
+
+{
+icon:"🌊",
+title:"水山蹇",
+reward:"88积分",
+desc:"先难后易，静待时机",
+level:"小吉"
 }
 
 ];
 
 
+
+// 随机抽取
+
 let result =
-results[Math.floor(Math.random()*results.length)];
+results[
+Math.floor(
+Math.random()*results.length
+)
+];
 
 
-// 初始化刮层
+
+
+// =========================
+// 显示隐藏结果
+// =========================
+
+function showResult(){
+
+
+document.getElementById("icon")
+.innerHTML=result.icon;
+
+
+document.getElementById("title")
+.innerHTML=result.title;
+
+
+document.getElementById("reward")
+.innerHTML=
+result.level+" · "+result.reward;
+
+
+document.getElementById("desc")
+.innerHTML=result.desc;
+
+
+}
+
+
+
+
+
+// =========================
+// 创建银色刮层
+// =========================
 
 function initScratch(){
 
-ctx.clearRect(0,0,420,240);
 
-
-// 背后中奖内容
-
-ctx.fillStyle="#5b0b0b";
-ctx.fillRect(0,0,420,240);
-
-
-ctx.fillStyle="#ffd76a";
-ctx.textAlign="center";
-
-
-ctx.font="bold 26px Microsoft YaHei";
-
-ctx.fillText(
-result.title,
-210,
-80
-);
-
-
-ctx.font="20px Microsoft YaHei";
-
-ctx.fillText(
-result.reward,
-210,
-125
-);
-
-
-ctx.font="18px Microsoft YaHei";
-
-ctx.fillText(
-result.desc,
-210,
-165
-);
-
-
-// 银色覆盖层
-
-let g=ctx.createLinearGradient(
+ctx.clearRect(
 0,
 0,
 420,
@@ -100,12 +118,39 @@ let g=ctx.createLinearGradient(
 );
 
 
-g.addColorStop(0,"#eeeeee");
-g.addColorStop(.5,"#aaa");
-g.addColorStop(1,"#eee");
+
+// 背景银膜
+
+let gradient =
+ctx.createLinearGradient(
+0,
+0,
+420,
+240
+);
 
 
-ctx.fillStyle=g;
+gradient.addColorStop(
+0,
+"#f5f5f5"
+);
+
+
+gradient.addColorStop(
+0.5,
+"#999999"
+);
+
+
+gradient.addColorStop(
+1,
+"#eeeeee"
+);
+
+
+
+ctx.fillStyle=gradient;
+
 
 ctx.fillRect(
 0,
@@ -115,16 +160,35 @@ ctx.fillRect(
 );
 
 
-// 提示文字
+
+// 彩票文字
 
 ctx.fillStyle="#666";
 
-ctx.font="bold 28px Microsoft YaHei";
+
+ctx.font=
+"bold 30px Microsoft YaHei";
+
+
+ctx.textAlign="center";
+
 
 ctx.fillText(
 "刮开此处",
 210,
-130
+125
+);
+
+
+
+ctx.font=
+"18px Microsoft YaHei";
+
+
+ctx.fillText(
+"好运正在生成",
+210,
+160
 );
 
 
@@ -133,31 +197,58 @@ ctx.fillText(
 
 
 
-// 擦除
+// =========================
+// 刮开逻辑
+// =========================
+
+let drawing=false;
+
+let finished=false;
+
+
 
 function erase(e){
 
-let rect=
+
+if(finished)return;
+
+
+
+let rect =
 canvas.getBoundingClientRect();
+
 
 
 let x;
 let y;
 
 
+
 if(e.touches){
 
-x=e.touches[0].clientX-rect.left;
 
-y=e.touches[0].clientY-rect.top;
+x=
+e.touches[0].clientX-
+rect.left;
 
-}
 
-else{
+y=
+e.touches[0].clientY-
+rect.top;
 
-x=e.clientX-rect.left;
 
-y=e.clientY-rect.top;
+}else{
+
+
+x=
+e.clientX-
+rect.left;
+
+
+y=
+e.clientY-
+rect.top;
+
 
 }
 
@@ -167,13 +258,14 @@ ctx.globalCompositeOperation=
 "destination-out";
 
 
+
 ctx.beginPath();
 
 
 ctx.arc(
 x,
 y,
-25,
+28,
 0,
 Math.PI*2
 );
@@ -182,10 +274,14 @@ Math.PI*2
 ctx.fill();
 
 
+
 ctx.globalCompositeOperation=
 "source-over";
 
+
+
 }
+
 
 
 
@@ -193,33 +289,39 @@ ctx.globalCompositeOperation=
 
 canvas.addEventListener(
 "mousedown",
-e=>{
+function(e){
+
 drawing=true;
+
 erase(e);
-}
-);
+
+});
 
 
 canvas.addEventListener(
 "mousemove",
-e=>{
+function(e){
 
-if(drawing)
+if(drawing){
+
 erase(e);
 
 }
-);
+
+});
 
 
-canvas.addEventListener(
+window.addEventListener(
 "mouseup",
-()=>{
+function(){
+
 drawing=false;
 
-showResult();
+checkScratch();
 
-}
-);
+});
+
+
 
 
 
@@ -227,20 +329,10 @@ showResult();
 
 canvas.addEventListener(
 "touchstart",
-e=>{
+function(e){
+
 drawing=true;
-erase(e);
-}
-);
 
-
-canvas.addEventListener(
-"touchmove",
-e=>{
-
-e.preventDefault();
-
-if(drawing)
 erase(e);
 
 },
@@ -250,44 +342,158 @@ erase(e);
 
 
 canvas.addEventListener(
-"touchend",
-()=>{
+"touchmove",
+function(e){
 
-drawing=false;
+e.preventDefault();
 
-showResult();
+
+if(drawing){
+
+erase(e);
 
 }
 
+},
+{passive:false}
 );
 
 
 
-// 中奖动画
+window.addEventListener(
+"touchend",
+function(){
 
-function showResult(){
+drawing=false;
 
-let box=document.querySelector(".card");
+checkScratch();
+
+});
 
 
-if(!box)return;
 
 
-box.classList.add("win");
+
+
+// =========================
+// 检测刮开比例
+// =========================
+
+
+function checkScratch(){
+
+
+if(finished)return;
+
+
+
+let data =
+ctx.getImageData(
+0,
+0,
+420,
+240
+).data;
+
+
+
+let clear=0;
+
+
+
+for(
+let i=3;
+i<data.length;
+i+=4
+){
+
+if(data[i]===0){
+
+clear++;
+
+}
+
+}
+
+
+
+let percent =
+clear/(420*240);
+
+
+
+if(percent>0.45){
+
+
+finished=true;
+
+
+canvas.style.transition="1s";
+
+canvas.style.opacity="0";
+
+
+
+// 动画
+
+document
+.querySelector(".scratch-card")
+.classList.add("win");
+
+
+
+showPopup();
+
+
+}
+
+
+
+}
+
+
+
+
+// =========================
+// 中奖弹窗
+// =========================
+
+
+function showPopup(){
+
+
+document
+.getElementById("popup-text")
+.innerHTML=
+
+`
+${result.icon}
+<br>
+${result.title}
+<br>
+${result.reward}
+<br>
+${result.desc}
+`;
+
+
+
+document
+.getElementById("popup")
+.style.display="flex";
+
 
 
 setTimeout(()=>{
 
-alert(
-result.title+
-"\n"+
-result.reward+
-"\n"+
-result.desc
-);
+
+document
+.getElementById("popup")
+.style.display="none";
 
 
-},600);
+},3000);
+
 
 
 }
@@ -295,5 +501,7 @@ result.desc
 
 
 // 启动
+
+showResult();
 
 initScratch();
