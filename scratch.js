@@ -1,136 +1,82 @@
 const canvas = document.getElementById("scratch");
 const ctx = canvas.getContext("2d");
 
-
 canvas.width = 420;
 canvas.height = 240;
 
 
-
-// =======================
-// 随机卦象库
-// =======================
-
-
-const fortunes = [
+// 奖励池
+const prizes = [
 
 {
-gua:"乾为天",
-level:"上上签",
+title:"乾卦·飞龙在天",
+level:"一等奖",
 reward:"888积分",
-desc:"龙腾九天，事业腾飞",
+desc:"事业腾飞，贵人相助",
 icon:"🐉"
 },
 
+{
+title:"坤卦·厚德载物",
+level:"二等奖",
+reward:"666积分",
+desc:"稳中有升，福气满满",
+icon:"🌿"
+},
 
 {
-gua:"火天大有",
-level:"上上签",
-reward:"666积分",
-desc:"大富大贵，财运旺盛",
+title:"离卦·光明未来",
+level:"三等奖",
+reward:"388积分",
+desc:"前路明亮，好运相随",
 icon:"🔥"
 },
 
-
 {
-gua:"地天泰",
-level:"上签",
-reward:"500积分",
-desc:"天地交泰，万事顺遂",
-icon:"🌏"
+title:"震卦·雷动乾坤",
+level:"幸运奖",
+reward:"188积分",
+desc:"突破阻碍，迎来机会",
+icon:"⚡"
 },
 
-
 {
-gua:"风雷益",
-level:"上签",
-reward:"300积分",
-desc:"贵人相助，好事将临",
-icon:"🌈"
-},
-
-
-{
-gua:"水山蹇",
-level:"中签",
-reward:"100积分",
-desc:"稳中求进，等待时机",
-icon:"🌊"
-},
-
-
-{
-gua:"山水蒙",
-level:"小吉",
-reward:"50积分",
-desc:"勤学积累，未来可期",
-icon:"📚"
+title:"随机卦象",
+level:"参与奖",
+reward:"88积分",
+desc:"平安喜乐",
+icon:"✨"
 }
 
-
 ];
-
 
 
 // 随机结果
-
-let result =
-fortunes[
-Math.floor(
-Math.random()*fortunes.length
-)
-];
+let prize =
+prizes[Math.floor(Math.random()*prizes.length)];
 
 
 
+// 显示中奖内容
+function showPrize(){
 
-// =======================
-// 写入奖品
-// =======================
-
-
-function showReward(){
+document.querySelector(".reward h2").innerHTML =
+prize.icon+" "+prize.title;
 
 
-let box=document.querySelector(".reward");
+document.querySelector(".reward p").innerHTML =
+prize.level+" · "+prize.reward;
 
 
-if(box){
-
-
-box.innerHTML=`
-
-<h2>
-${result.icon}
-${result.gua}
-</h2>
-
-
-<p>
-${result.desc}
-</p>
-
-
-<h3>
-${result.level}
-· ${result.reward}
-</h3>
-
-`;
+document.querySelector(".reward h3").innerHTML =
+prize.desc;
 
 
 }
 
 
 
-}
-
-
-
-// =======================
-// 初始化刮层
-// =======================
-
+// 初始化刮刮层
 
 function initScratch(){
 
@@ -143,6 +89,7 @@ canvas.height
 );
 
 
+// 银色渐变
 
 let g =
 ctx.createLinearGradient(
@@ -158,12 +105,10 @@ g.addColorStop(
 "#eeeeee"
 );
 
-
 g.addColorStop(
 0.5,
-"#aaaaaa"
+"#999999"
 );
-
 
 g.addColorStop(
 1,
@@ -174,7 +119,6 @@ g.addColorStop(
 
 ctx.fillStyle=g;
 
-
 ctx.fillRect(
 0,
 0,
@@ -184,15 +128,12 @@ ctx.fillRect(
 
 
 
-// 提示文字
-
+// 文字
 
 ctx.fillStyle="#666";
 
-
 ctx.font=
-"bold 30px Microsoft YaHei";
-
+"bold 28px Microsoft YaHei";
 
 ctx.textAlign="center";
 
@@ -204,34 +145,22 @@ ctx.fillText(
 );
 
 
+
 }
 
 
 
-
-
-initScratch();
-
-
-
-// =======================
-// 刮奖逻辑
-// =======================
-
+// 刮开
 
 let drawing=false;
-
-
-let area=0;
 
 
 
 function erase(e){
 
 
-let rect=
+let rect =
 canvas.getBoundingClientRect();
-
 
 
 let x;
@@ -240,7 +169,6 @@ let y;
 
 
 if(e.touches){
-
 
 x=
 e.touches[0].clientX
@@ -254,10 +182,7 @@ e.touches[0].clientY
 rect.top;
 
 
-
-}
-
-else{
+}else{
 
 
 x=
@@ -276,9 +201,7 @@ rect.top;
 
 
 
-
-
-ctx.globalCompositeOperation=
+ctx.globalCompositeOperation =
 "destination-out";
 
 
@@ -289,98 +212,33 @@ ctx.beginPath();
 ctx.arc(
 x,
 y,
-28,
+30,
 0,
 Math.PI*2
 );
 
 
-
 ctx.fill();
 
 
-ctx.globalCompositeOperation=
+
+ctx.globalCompositeOperation =
 "source-over";
 
 
-
-
-// 计算刮开比例
-
-area++;
-
-
-
-if(area>35){
-
-
-finishScratch();
-
-
 }
 
 
 
-}
-
-
-
-
-function finishScratch(){
-
-
-
-canvas.style.pointerEvents="none";
-
-
-
-// 显示结果
-
-showReward();
-
-
-
-// 添加动画
-
-
-let card=
-document.querySelector(".card");
-
-
-if(card){
-
-card.classList.add("win");
-
-}
-
-
-
-// 金币
-
-createGold();
-
-
-}
-
-
-
+// 鼠标
 
 canvas.addEventListener(
 "mousedown",
-()=>{
+function(e){
 
 drawing=true;
 
-}
-);
-
-
-
-canvas.addEventListener(
-"mouseup",
-()=>{
-
-drawing=false;
+erase(e);
 
 }
 );
@@ -389,14 +247,21 @@ drawing=false;
 
 canvas.addEventListener(
 "mousemove",
-(e)=>{
+function(e){
 
-
-if(drawing){
-
+if(drawing)
 erase(e);
 
 }
+);
+
+
+
+window.addEventListener(
+"mouseup",
+function(){
+
+drawing=false;
 
 
 }
@@ -408,25 +273,15 @@ erase(e);
 
 canvas.addEventListener(
 "touchstart",
-(e)=>{
+function(e){
 
 drawing=true;
 
 erase(e);
 
-}
 
-);
-
-
-
-canvas.addEventListener(
-"touchend",
-()=>{
-
-drawing=false;
-
-}
+},
+{passive:false}
 
 );
 
@@ -434,81 +289,90 @@ drawing=false;
 
 canvas.addEventListener(
 "touchmove",
-(e)=>{
+function(e){
 
 
 e.preventDefault();
 
 
-if(drawing){
-
+if(drawing)
 erase(e);
 
-}
 
 
 },
-{
-passive:false
-}
+{passive:false}
 
 );
 
 
 
+window.addEventListener(
+"touchend",
+function(){
+
+drawing=false;
 
 
-// =======================
-// 中奖金币动画
-// =======================
-
-
-function createGold(){
-
-
-
-for(let i=0;i<30;i++){
-
-
-let gold=
-document.createElement("div");
-
-
-gold.className="gold";
-
-
-gold.innerHTML="🪙";
-
-
-gold.style.left=
-Math.random()*100+"vw";
-
-
-gold.style.top=
-"-30px";
-
-
-gold.style.animationDelay=
-Math.random()+"s";
+}
+);
 
 
 
-document.body.appendChild(gold);
+
+// 初始化
+
+showPrize();
+
+initScratch();
 
 
 
-setTimeout(()=>{
+// 刮开后动画检测
+
+let check =
+setInterval(()=>{
 
 
-gold.remove();
+let img =
+ctx.getImageData(
+0,
+0,
+420,
+240
+);
 
 
-},2000);
+
+let clear=0;
 
 
+
+for(let i=3;i<img.data.length;i+=4){
+
+if(img.data[i]==0)
+clear++;
 
 }
 
 
 
+if(clear>420*240*0.45){
+
+
+clearInterval(check);
+
+
+canvas.style.display="none";
+
+
+// 中奖动画
+
+document.querySelector(".card")
+.classList.add("win");
+
+
 }
+
+
+},500);
