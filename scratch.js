@@ -6,128 +6,130 @@ canvas.height = 240;
 
 
 let drawing = false;
-let finished = false;
 
 
-// 获取随机结果
-let result = getFortune();
+// 随机结果
+const results = [
+
+{
+title:"乾卦 · 飞龙在天",
+reward:"一等奖 ¥888",
+desc:"事业腾飞，贵人相助",
+level:"gold"
+},
+
+{
+title:"坤卦 · 厚德载物",
+reward:"二等奖 ¥288",
+desc:"积累福气，稳步前行",
+level:"silver"
+},
+
+{
+title:"离卦 · 光明未来",
+reward:"幸运奖 ¥88",
+desc:"前方有好运",
+level:"blue"
+},
+
+{
+title:"无奖",
+reward:"再接再厉",
+desc:"下次好运降临",
+level:"none"
+}
+
+];
 
 
-// 初始化
+let result =
+results[Math.floor(Math.random()*results.length)];
+
+
+// 初始化刮层
+
 function initScratch(){
 
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+ctx.clearRect(0,0,420,240);
 
 
-    // 显示中奖内容
-    ctx.globalCompositeOperation="source-over";
+// 背后中奖内容
+
+ctx.fillStyle="#5b0b0b";
+ctx.fillRect(0,0,420,240);
 
 
-    ctx.fillStyle="#8b1e1e";
-
-    ctx.fillRect(
-        0,
-        0,
-        420,
-        240
-    );
+ctx.fillStyle="#ffd76a";
+ctx.textAlign="center";
 
 
-    ctx.fillStyle="#ffd86b";
+ctx.font="bold 26px Microsoft YaHei";
 
-    ctx.textAlign="center";
-
-
-    ctx.font="bold 32px Microsoft YaHei";
-
-    ctx.fillText(
-        result.title,
-        210,
-        80
-    );
+ctx.fillText(
+result.title,
+210,
+80
+);
 
 
-    ctx.font="24px Microsoft YaHei";
+ctx.font="20px Microsoft YaHei";
 
-    ctx.fillText(
-        result.icon+" "+result.reward,
-        210,
-        130
-    );
-
-
-    ctx.font="20px Microsoft YaHei";
-
-    ctx.fillText(
-        result.desc,
-        210,
-        175
-    );
+ctx.fillText(
+result.reward,
+210,
+125
+);
 
 
+ctx.font="18px Microsoft YaHei";
 
-    // 重新盖刮层
-
-    ctx.globalCompositeOperation="source-over";
-
-
-    let g=ctx.createLinearGradient(
-        0,
-        0,
-        420,
-        240
-    );
+ctx.fillText(
+result.desc,
+210,
+165
+);
 
 
-    g.addColorStop(
-        0,
-        "#eeeeee"
-    );
+// 银色覆盖层
+
+let g=ctx.createLinearGradient(
+0,
+0,
+420,
+240
+);
 
 
-    g.addColorStop(
-        0.5,
-        "#999999"
-    );
+g.addColorStop(0,"#eeeeee");
+g.addColorStop(.5,"#aaa");
+g.addColorStop(1,"#eee");
 
 
-    g.addColorStop(
-        1,
-        "#eeeeee"
-    );
+ctx.fillStyle=g;
+
+ctx.fillRect(
+0,
+0,
+420,
+240
+);
 
 
-    ctx.fillStyle=g;
+// 提示文字
 
+ctx.fillStyle="#666";
 
-    ctx.fillRect(
-        0,
-        0,
-        420,
-        240
-    );
+ctx.font="bold 28px Microsoft YaHei";
 
+ctx.fillText(
+"刮开此处",
+210,
+130
+);
 
-
-    ctx.fillStyle="#777";
-
-
-    ctx.font="bold 30px Microsoft YaHei";
-
-
-    ctx.fillText(
-        "刮开此处",
-        210,
-        130
-    );
 
 }
+
 
 
 
@@ -135,57 +137,53 @@ function initScratch(){
 
 function erase(e){
 
-
-    if(finished)return;
-
-
-    let rect=
-    canvas.getBoundingClientRect();
+let rect=
+canvas.getBoundingClientRect();
 
 
-    let x;
-    let y;
+let x;
+let y;
 
 
+if(e.touches){
 
-    if(e.touches){
+x=e.touches[0].clientX-rect.left;
 
-        x=e.touches[0].clientX-rect.left;
-        y=e.touches[0].clientY-rect.top;
+y=e.touches[0].clientY-rect.top;
 
+}
 
-    }else{
+else{
 
+x=e.clientX-rect.left;
 
-        x=e.clientX-rect.left;
-        y=e.clientY-rect.top;
+y=e.clientY-rect.top;
 
-    }
+}
 
 
 
-    ctx.globalCompositeOperation=
-    "destination-out";
+ctx.globalCompositeOperation=
+"destination-out";
 
 
-    ctx.beginPath();
+ctx.beginPath();
 
 
-    ctx.arc(
-        x,
-        y,
-        30,
-        0,
-        Math.PI*2
-    );
+ctx.arc(
+x,
+y,
+25,
+0,
+Math.PI*2
+);
 
 
-    ctx.fill();
+ctx.fill();
 
 
-
-    ctx.globalCompositeOperation=
-    "source-over";
+ctx.globalCompositeOperation=
+"source-over";
 
 }
 
@@ -195,33 +193,33 @@ function erase(e){
 
 canvas.addEventListener(
 "mousedown",
-function(e){
-
+e=>{
 drawing=true;
 erase(e);
-
-});
+}
+);
 
 
 canvas.addEventListener(
 "mousemove",
-function(e){
+e=>{
 
 if(drawing)
 erase(e);
 
-});
+}
+);
 
 
-
-window.addEventListener(
+canvas.addEventListener(
 "mouseup",
-function(){
-
+()=>{
 drawing=false;
 
-});
+showResult();
 
+}
+);
 
 
 
@@ -229,116 +227,73 @@ drawing=false;
 
 canvas.addEventListener(
 "touchstart",
-function(e){
-
+e=>{
 drawing=true;
-
 erase(e);
-
-});
-
+}
+);
 
 
 canvas.addEventListener(
 "touchmove",
-function(e){
+e=>{
 
 e.preventDefault();
 
 if(drawing)
 erase(e);
 
-
 },
-{
-passive:false
-});
+{passive:false}
+);
 
 
 
-window.addEventListener(
+canvas.addEventListener(
 "touchend",
-function(){
+()=>{
 
 drawing=false;
 
-});
-
-
-
-
-
-// 刮开完成检测
-
-function checkScratch(){
-
-
-let pixels=
-ctx.getImageData(
-0,
-0,
-420,
-240
-).data;
-
-
-let clear=0;
-
-
-for(
-let i=3;
-i<pixels.length;
-i+=4
-){
-
-if(pixels[i]==0)
-clear++;
+showResult();
 
 }
 
+);
 
-
-if(
-clear>420*240*0.45
-&& !finished
-){
-
-
-finished=true;
 
 
 // 中奖动画
 
-canvas.style.animation=
-"win .8s";
+function showResult(){
+
+let box=document.querySelector(".card");
 
 
-setTimeout(
-function(){
+if(!box)return;
+
+
+box.classList.add("win");
+
+
+setTimeout(()=>{
 
 alert(
-"🎉 恭喜："+result.title+
-"\n"+result.reward
+result.title+
+"\n"+
+result.reward+
+"\n"+
+result.desc
 );
 
 
-},
-500
-);
+},600);
 
 
 }
 
 
-}
 
-
-
-setInterval(
-checkScratch,
-500
-);
-
-
+// 启动
 
 initScratch();
