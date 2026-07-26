@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
+
 <head>
 
 <meta charset="UTF-8">
 
-<title>幸运刮刮乐</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+国风天机 · 幸运刮刮乐
+</title>
+
 
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 
 <body>
@@ -18,39 +27,74 @@
 <div class="ticket">
 
 
-<h1>🧧 吉祥如意刮刮乐</h1>
+<h1>
+🧧 国风天机刮刮乐
+</h1>
 
 
-<div id="card" class="card">
-
-
-<div id="reward" class="reward">
-
-<h2>🎁 幸运加载中...</h2>
-
-<p></p>
-
-<h3></h3>
-
-</div>
-
-
-<canvas id="scratch" width="420" height="240"></canvas>
-
-
-</div>
-
-
-<p class="tip">
-刮开银膜，揭晓今日天机
+<p class="luck">
+今日天机已生成 · 请刮开银膜
 </p>
 
 
+
+<div class="card">
+
+
+
+<!-- 真实中奖区域 -->
+
+<div class="reward">
+
+
+<h2>
+🔮 神秘卦象
+</h2>
+
+
+<p>
+刮开后揭晓
+</p>
+
+
+<h3>
+☯ 今日运势
+</h3>
+
+
 </div>
 
 
 
-<script src="fortune.js"></script>
+<!-- 银膜 -->
+
+<canvas 
+id="scratch"
+width="420"
+height="240">
+</canvas>
+
+
+
+</div>
+
+
+
+<p class="tip">
+
+✋ 按住鼠标拖动刮开银膜
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+<!-- JS加载顺序非常重要 -->
 
 <script src="scratch.js"></script>
 
